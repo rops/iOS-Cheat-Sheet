@@ -1,5 +1,8 @@
 # iOS Dev Cheat Sheet
 
+### Style Cheat Sheet
+[Ray Wenderlich's Style Guide](https://github.com/raywenderlich/objective-c-style-guide)
+
 ### Logging Meaningful Events
 
 
