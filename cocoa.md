@@ -1,6 +1,6 @@
-## iOS Dev Cheat Sheet
+# iOS Dev Cheat Sheet
 
-# Logging Meaningful Events
+## Logging Meaningful Events
 
 
 ```objC
@@ -22,16 +22,17 @@
 }
 ```
 
+# Custom NSLog
 
-
-
+```objC
 #ifdef DEBUG
 #define DMLog(...) NSLog(@"%s %@", __PRETTY_FUNCTION__, [NSString stringWithFormat:__VA_ARGS__])
 #else
 #define DMLog(...) do { } while (0)
+```
 
-
-
+# Remove Observer and Delegate on dealloc
+```objC
 - (void)dealloc {
     // Remove Observer
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -40,13 +41,13 @@
         _delegate = nil;
     }
 }
-
-
-// Reachability
-        __weak typeof(self)weakSelf = self;
-        [self setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:MTRainReachabilityStatusDidChangeNotification object:weakSelf];
-        }];
-
-
- UIApplicationDidBecomeActiveNotification
+```
+# Weak self on blocks
+```objC
+__weak typeof(self)weakSelf = self;
+[self doSomethingWithBlock:^(){
+    [[NSNotificationCenter defaultCenter] postNotificationName:MyNotification object:weakSelf];
+}]
+```
+# Useful Notifications
+`UIApplicationDidBecomeActiveNotification`
