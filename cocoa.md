@@ -1,6 +1,6 @@
 # iOS Dev Cheat Sheet
 
-## Logging Meaningful Events
+### Logging Meaningful Events
 
 
 ```objC
@@ -22,7 +22,7 @@
 }
 ```
 
-# Custom NSLog
+### Custom NSLog
 
 ```objC
 #ifdef DEBUG
@@ -31,7 +31,7 @@
 #define DMLog(...) do { } while (0)
 ```
 
-# Remove Observer and Delegate on dealloc
+### Remove Observer and Delegate on dealloc
 ```objC
 - (void)dealloc {
     // Remove Observer
@@ -42,12 +42,12 @@
     }
 }
 ```
-# Weak self on blocks
+### __weak
 ```objC
 __weak typeof(self)weakSelf = self;
 [self doSomethingWithBlock:^(){
     [[NSNotificationCenter defaultCenter] postNotificationName:MyNotification object:weakSelf];
 }]
 ```
-# Useful Notifications
-`UIApplicationDidBecomeActiveNotification`
+### Useful Notifications
+* `UIApplicationDidBecomeActiveNotification` 
