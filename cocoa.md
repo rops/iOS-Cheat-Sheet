@@ -85,3 +85,31 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0),
 ```
 ### Useful Notifications
 * `UIApplicationDidBecomeActiveNotification` 
+
+### Memory Management
+* Memory attributes:
+    * `strong`: the pointed object gets owned.
+    * `weak`: the pointed object gets not owned and the variable is set *nil* when the pointed object gets deallocated
+    * `copy`: strong reference to a copy of the object.
+    * `unsafe_unretained`: weak reference without the auto-nil behavior.
+* Instance variables are `strong` by default. Use `__weak` for a weak local variable
+```objC
+int _thisIsAStrongVariable;
+__weak int thisIsAWeakVariable;
+```
+* Properties variables are `strong` by default. `weak` should be use in case a child object needs a pointer to its parent. For non-object properties there is no need to use an attribute (`unsafe_unretained` is the default). 
+```objC
+@property(nonatomic,strong) NSObject myChild;
+@property(nonatomic,weak) NSObject myParent;
+@property(nonatomic) int aNonObj;
+```
+* Use *copy* when a property points to an instance of class with a mutable subclass (NSString, NSArray, NSDictionary)
+* Properties declarations only declare the accessors methods in the class interface. `@synthetize` (implicitly added by the compiler) provides the implementation of the accessors methods and the creation of the instance variable.
+```objC
+@synthesize age = _age;
+@synthesize age;
+```
+* Expicitly use `@synthetize` ( to generate the instance variable ) in case of:
+    * readwrite property with custom getter and setter
+    * readonly property with custom getter
+* `@dynamic` just tells the compiler that the getter and setter methods are implemented not by the class itself but somewhere else (like the superclass or will be provided at runtime). 
