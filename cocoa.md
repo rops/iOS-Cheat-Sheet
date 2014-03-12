@@ -70,19 +70,21 @@ __block int variable;
 Blocks store a strong pointer to any variable they are going to access. If the block is owned by the an object ( e.g. through a property) and the block access `self` inside its body, it results in a retain cycle.
 To avoid this, the block should use a `_weak` reference to `self`.
 ```objC
-__weak typeof(self)weakSelf = self;
-[self doSomethingWithBlock:^(){
-    [weakSelf doSomethingElse];
-}]
+__weak __typeof__(self) weakSelf = self;
+self.myBlock = ^{
+    __typeof__(self) strongSelf = weakSelf; // may be nil
+    if (strongSelf)
+    {
+        strongSelf.someProperty = xyz; 
+    }
+};
 ```
-Doing so, if the object gets deallocated before the block gets executed, weakSelf will just by zeroed. 
-If it is important, for the the block, to have a valid instance of `self`, it should make a strong reference to it.
+If all you need to capture is the value of a property to avoid any references to self, copy the property into a strong local variable and capture that.
 ```objC
-__weak typeof(self) weakSelf = self; //weak reference
-dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^ {
-    typeof(self) strongSelf = weakSelf; //strong reference to the weak reference
-    [strongSelf doSomething];
-});
+MyPropertyClass * propValue = self.someProperty;
+self.myBlock = ^{
+    anotherObject.property = propValue;
+};
 ```
 ### Useful Notifications
 * `UIApplicationDidBecomeActiveNotification` 
