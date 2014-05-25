@@ -116,3 +116,25 @@ __weak int thisIsAWeakVariable;
     * readwrite property with custom getter and setter
     * readonly property with custom getter
 * `@dynamic` just tells the compiler that the getter and setter methods are implemented not by the class itself but somewhere else (like the superclass or will be provided at runtime). 
+
+### Documentation
+[References](http://www.raywenderlich.com/66395/documenting-in-xcode-with-headerdoc-tutorial)
+
+Xcode parses documentation comments styled like so:
+
+```
+/*!
+ * Your documentation comment will go here
+ */
+ 
+ /// One Line doc
+```
+
+Documenting **methods**:
+
+* `@brief`: Quickly describes the data type, method, etc. that you are documenting.
+* `@abstract`: Equivalent to @brief.
+* `@discussion`: Similar to @abstract and @brief, but it allows multiple lines. It’s not required to actually write this keyword out; but it is good to use for clarity’s sake.
+* `@param`: The name and description of a parameter to a method, callback or function.
+* `@return`: A description of what a method or function returns. (You can also use the equivalent @result)
+* `@warning`: A warning note
