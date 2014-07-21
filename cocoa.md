@@ -72,7 +72,11 @@ To avoid this, the block should use a `_weak` reference to `self`.
 ```objC
 __weak __typeof__(self) weakSelf = self;
 self.myBlock = ^{
-    __typeof__(self) strongSelf = weakSelf; // may be nil
+    // Create a strong reference to self, based on the previous weak reference.
+    // This prevents a direct strong reference so we don't get into a retain cycle to self.
+    // Also, it prevents self from becoming nil half-way, but still properly decrements the retain count
+    // at the end of the block.
+    __typeof__(self) strongSelf = weakSelf;
     if (strongSelf)
     {
         strongSelf.someProperty = xyz; 
